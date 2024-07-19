@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}My Bookings{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1 class="my-4">My Bookings</h1>
+  <div class="list-group">
+    {% for booking in bookings %}
+    <a href="#" class="list-group-item list-group-item-action">
+      <h5 class="mb-1">{{ booking.event.name }}</h5>
+      <p class="mb-1"><strong>Date:</strong> {{ booking.event.date }}</p>
+      <p class="mb-1"><strong>Seats Booked:</strong> {{ booking.seats_booked }}</p>
+      <p class="mb-1"><strong>Booking Date:</strong> {{ booking.booking_date }}</p>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

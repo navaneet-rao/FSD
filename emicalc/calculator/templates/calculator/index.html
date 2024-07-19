@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EMI Calculator</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .container {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 100%;
+      }
+
+      h1 {
+        text-align: center;
+        color: #007bff;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      label {
+        margin-top: 10px;
+      }
+
+      input[type="number"],
+      button {
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+
+      button {
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+        border: none;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      h2 {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      #emiResult {
+        color: #28a745;
+        font-weight: bold;
+      }
+
+      footer {
+        margin-top: 20px;
+        text-align: center;
+        color: #666;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>EMI Calculator</h1>
+      <form id="emiForm" method="post">
+        {% csrf_token %}
+        <label for="principal">Principal Amount:</label>
+        <input type="number" id="principal" name="principal" required />
+
+        <label for="rate">Interest Rate:</label>
+        <input type="number" id="rate" name="rate" required />
+
+        <label for="time">Time (in months):</label>
+        <input type="number" id="time" name="time" required />
+
+        <button type="submit">Calculate EMI</button>
+      </form>
+      <h2>EMI: <span id="emiResult"></span></h2>
+    </div>
+    <footer>Developed by Navaneet R Rao - 1JT21CS064</footer>
+
+    <script>
+      $(document).ready(function () {
+        $("#emiForm").on("submit", function (event) {
+          event.preventDefault();
+          $.ajax({
+            url: "",
+            type: "POST",
+            data: {
+              principal: $("#principal").val(),
+              rate: $("#rate").val(),
+              time: $("#time").val(),
+              csrfmiddlewaretoken: "{{ csrf_token }}",
+            },
+            success: function (response) {
+              $("#emiResult").text(response.emi.toFixed(2));
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
